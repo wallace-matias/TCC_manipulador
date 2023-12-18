@@ -55,7 +55,6 @@ tt=[0:0.01:5]';
 qt=[tt Trajeto1 qd1];
 
 tau_all=[];
-taug_all=[];
 
 %%
 
@@ -68,11 +67,11 @@ D = [1 1 1]*40;%37;
 %clf; Robot.plot(q);
 %%
 %
-% figure
-% XYZ=transl(Robot.fkine(Trajeto1));
-% plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3)) %plotar trajetória
-% Robot.plot(Trajeto1(end,:))
-% title("Trajetória 1")
+figure
+XYZ=transl(Robot.fkine(Trajeto1));
+plot3(XYZ(:,1),XYZ(:,2),XYZ(:,3)) %plotar trajetória
+Robot.plot(Trajeto1(end,:))
+title("Trajetória 1")
 
 % Do caminho realizado/desejado - angulos
 % figure
@@ -96,13 +95,6 @@ figure; plot(t,qd(:,1),"-b",tt,qd1(:,1),"--b",t,qd(:,2),"-g",tt,qd1(:,2),"--g",t
 title("Velocidades das juntas - Trajetória 2")
 % title("Velocidades das juntas - Trajetória 3")
 
-% Do caminho realizado - Torque Gerado
-% figure
-% plot(tau_all(:,1),tau_all(:,2),"-b",tau_all(:,1),tau_all(:,3),"-g",tau_all(:,1),tau_all(:,4),"-r"); xlabel('Time (s)'); ylabel('Torque N.m');legend("tau1","tau2","tau3")
-% title("Torque das juntas - Trajetória 1")
-% % title("Torque das juntas - Trajetória 2")
-% % title("Torque das juntas - Trajetória 3")
-
 
 % figure
 % plot(taug_all(:,1),taug_all(:,2:4)); xlabel('Time (s)'); ylabel('Torque_g N.m')
@@ -120,6 +112,4 @@ function tau = mytorque(robot,t,q,qd)
     errov=qd_cd-qd;
     tau = errop*diag(P) + errov*diag(D);  % P, D are 3x3
     tau_all=[tau_all;t tau];
-    %taug = robot.gravload(q);
-    %taug_all=[taug_all;t tau];
 end
